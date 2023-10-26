@@ -3,9 +3,11 @@
 import * as vscode from 'vscode';
 import { CancellationToken, Hover, Position, ProviderResult, TextDocument } from 'vscode';
 
-import * as configToml from './lang/config-toml';
-import * as packageToml from './lang/package-toml';
+import { getCompletetionFromDefinition } from './lang/toml';
 import path = require('path');
+
+import tomlDefs from './completions/toml';
+import assets from './completions/default_assets';
 
 function provideHover(doc: TextDocument, pos: Position, tok: CancellationToken): ProviderResult<Hover> {
     const line = doc.lineAt(pos);
@@ -73,15 +75,33 @@ export function activate(context: vscode.ExtensionContext) {
 	// 	provideHover
 	// });
 
-	vscode.languages.registerCompletionItemProvider({
-		language: "toml",
-		pattern: "**/Config.toml",
-	}, configToml);
+    for (let def of tomlDefs) {
+        vscode.languages.registerCompletionItemProvider({
+            language: "toml",
+            pattern: def.pattern,
+        }, getCompletetionFromDefinition(def.definition));
+    }
 
-	vscode.languages.registerCompletionItemProvider({
-		language: "toml",
-		pattern: "**/Package.toml",
-	}, packageToml);
+    vscode.languages.registerCompletionItemProvider(['lua', 'toml'],
+    {
+        provideCompletionItems(document, position, token, context) {
+            const linePrefix = document
+                .lineAt(position)
+                .text.substring(0, position.character);
+            if (!linePrefix.endsWith('helix::')) {
+                return [];
+            }
+
+            const items = Object.keys(assets).map((item: string) => {
+                const completionItem = new vscode.CompletionItem(item);
+                completionItem.insertText = item;
+                completionItem.detail = (assets as any)[item];
+                return completionItem;
+            });
+
+            return items;
+        },
+    }, ':');
 
 	vscode.workspace.findFiles('**/Config.toml', '**/node_modules/**', 1).then(files => {
         if (files.length > 0) {
