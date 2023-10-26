@@ -1,0 +1,74 @@
+{
+  "name": "helix-script",
+  "displayName": "HELIX Script",
+  "description": "helix",
+  "version": "0.0.1",
+  "publisher": "HELIX",
+  "engines": {
+    "vscode": "^1.83.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/Config.toml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "helix-script.addLuaLibrary",
+        "title": "add HELIX Lua Library"
+      }
+    ],
+    "languages": [
+      {
+        "id": "toml",
+        "aliases": [
+          "TOML",
+          "toml"
+        ],
+        "extensions": [
+          ".toml"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "toml",
+        "scopeName": "source.toml",
+        "path": "./syntaxes/toml.tmLanguage"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "extensionDependencies": [
+    "sumneko.lua"
+  ],
+  "devDependencies": {
+    "@types/mocha": "^10.0.2",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.83.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.50.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2"
+  },
+  "contributors": [
+    "yaml"
+  ],
+  "dependencies": {
+    "toml": "^3.0.0"
+  }
+}
