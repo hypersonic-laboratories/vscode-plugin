@@ -82,6 +82,12 @@ export function activate(context: vscode.ExtensionContext) {
 		language: "toml",
 		pattern: "**/Package.toml",
 	}, packageToml);
+
+	vscode.workspace.findFiles('**/Config.toml', '**/node_modules/**', 1).then(files => {
+        if (files.length > 0) {
+            vscode.commands.executeCommand('helix-script.addLuaLibrary');
+        }
+    });
 }
 
 // This method is called when your extension is deactivated
