@@ -3,7 +3,7 @@
   "displayName": "HELIX Script",
   "description": "helix",
   "version": "0.0.1",
-  "publisher": "HELIX",
+  "publisher": "HELIXCreator",
   "engines": {
     "vscode": "^1.83.0"
   },
