@@ -2,7 +2,7 @@
   "name": "helix-script",
   "displayName": "HELIX Script",
   "description": "A simple tool for Scripter",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "publisher": "helix",
   "repository": "https://github.com/hypersonic-laboratories/vscode-plugin",
   "icon": "favicon.ico",
