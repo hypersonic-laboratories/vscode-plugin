@@ -52,7 +52,7 @@ export function activate(context: vscode.ExtensionContext) {
             config.update('library', userThirdParty, vscode.ConfigurationTarget.Workspace);
             vscode.window.showInformationMessage('Path added successfully!');
         } else {
-            vscode.window.showInformationMessage('Path is already added.');
+            // vscode.window.showInformationMessage('Path is already added.');
         }
 	});
 
